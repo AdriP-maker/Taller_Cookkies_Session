@@ -1,8 +1,11 @@
 <?php
+session_start();
+ob_start();
 $pageTitle  = 'P4 — Pedido de Restaurante | Taller 5';
 $activePage = 'p4';
 $rootPath   = '';
 $footerType = 'programa';
+$groupMembers = [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
