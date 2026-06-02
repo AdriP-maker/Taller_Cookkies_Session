@@ -1,8 +1,11 @@
 <?php
+session_start();
+ob_start();
 $pageTitle  = 'P1 — Reserva de Cine | Taller 5';
 $activePage = 'p1';
 $rootPath   = '';
 $footerType = 'programa';
+$groupMembers = ['Brandon Arcia', 'Anthony Perez', 'Alexandra de Gracia', 'Luis Vasquez'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,15 +36,12 @@ $footerType = 'programa';
     <div>
       <span class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1">Programa 01</span>
       <h1 class="h3 fw-bold mb-0">Reserva de Cine</h1>
-      <p class="text-muted small mb-0">
-        Cookies y Sesiones &bull; Arrays asociativos &bull; POO &bull; Bootstrap 5.3.3
-      </p>
     </div>
   </div>
 
   <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-bottom fw-semibold d-flex align-items-center gap-2">
-      <i class="bi bi-code-slash text-primary"></i>Implementación
+      <i class="bi bi-code-slash text-primary"></i>Formulario
     </div>
     <div class="card-body">
       <?php include 'T5_P1/php/programa.php'; ?>
