@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once __DIR__ . '/Pedido.php';
 
 // Si el usuario presiona el botón borrar, se limpia la sesión y las cookies

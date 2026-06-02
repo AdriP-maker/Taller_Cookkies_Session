@@ -5,7 +5,7 @@ $pageTitle  = 'P4 — Pedido de Restaurante | Taller 5';
 $activePage = 'p4';
 $rootPath   = '';
 $footerType = 'programa';
-$groupMembers = [];
+$groupMembers = ['Celeste Perez', 'Adrian Perez', 'Josue Flores', 'Josael Zurita'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
