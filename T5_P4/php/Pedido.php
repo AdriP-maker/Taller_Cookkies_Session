@@ -1,8 +1,9 @@
 <?php
 
+// Clase que representa un pedido de restaurante con sus calculos de precio
 class Pedido {
 
-    // Datos del pedido
+    // Datos que llegan del formulario
     private $cliente;
     private $edad;
     private $plato;
@@ -12,7 +13,7 @@ class Pedido {
     private $tipo_pago;
     private $comentarios;
 
-    // Precios del menú
+    // Lista de precios de cada item del menu
     private $precios = [
         'Hamburguesa' => 8,
         'Pizza'       => 10,
@@ -23,8 +24,9 @@ class Pedido {
 
     private $tasa_itbms           = 0.07;  // 7% ITBMS
     private $porcentaje_descuento = 0.15;  // 15% para mayores de 55
-    private $edad_descuento       = 55;
+    private $edad_descuento       = 55;    // Edad minima para el descuento
 
+    // Constructor: recibe todos los datos del pedido y los guarda en la clase
     public function __construct($cliente, $edad, $plato, $bebida, $postre, $cantidad, $tipo_pago, $comentarios) {
         $this->cliente     = $cliente;
         $this->edad        = $edad;
@@ -41,7 +43,7 @@ class Pedido {
         return $this->precios[$this->plato] ?? 0;
     }
 
-    // Suma plato × cantidad + bebida + postre (si aplica)
+    // Suma plato x cantidad + bebida + postre (si aplica)
     public function calcularSubtotal() {
         $precioPlato  = $this->getPrecioPlato() * $this->cantidad;
         $precioBebida = $this->precios[$this->bebida] ?? 0;
@@ -49,7 +51,7 @@ class Pedido {
         return $precioPlato + $precioBebida + $precioPostre;
     }
 
-    // Aplica 15% de descuento si el cliente tiene 55 años o más
+    // Aplica 15% de descuento si el cliente tiene 55 anos o mas
     public function calcularDescuento() {
         if ($this->edad >= $this->edad_descuento) {
             return $this->calcularSubtotal() * $this->porcentaje_descuento;
@@ -62,11 +64,12 @@ class Pedido {
         return ($this->calcularSubtotal() - $this->calcularDescuento()) * $this->tasa_itbms;
     }
 
+    // Suma subtotal - descuento + ITBMS para obtener el total final
     public function calcularTotal() {
         return ($this->calcularSubtotal() - $this->calcularDescuento()) + $this->calcularITBMS();
     }
 
-    // Devuelve un array asociativo con todos los datos para la factura
+    // Devuelve un array asociativo con todos los datos listos para mostrar en la factura
     public function getDetalleFactura() {
         return [
             'cliente'      => $this->cliente,
