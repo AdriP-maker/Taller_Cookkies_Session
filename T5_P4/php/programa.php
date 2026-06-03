@@ -39,10 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
             throw new Exception("El nombre solo puede contener letras y espacios.");
         if ($edad < 10 || $edad > 120)
             throw new Exception("La edad debe ser entre 10 y 120 años.");
-        if (empty($plato))
-            throw new Exception("Debe seleccionar un plato principal.");
-        if (empty($bebida))
-            throw new Exception("Debe seleccionar una bebida.");
+        // Al menos uno de los tres debe estar seleccionado
+        if (empty($plato) && empty($bebida) && $postre === 'Ninguno')
+            throw new Exception("Debe seleccionar al menos un plato, bebida o postre.");
         if ($cantidad < 1 || $cantidad > 10)
             throw new Exception("La cantidad debe ser entre 1 y 10.");
         if (empty($tipo_pago))

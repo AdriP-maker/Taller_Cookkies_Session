@@ -1,8 +1,7 @@
 <!-- Formulario para ingresar un nuevo pedido de restaurante -->
 <h4 class="mb-3 text-danger"><i class="bi bi-pencil-square me-2"></i>Nuevo Pedido</h4>
 
-<form method="POST" action="" class="p-4 border-0 rounded-4 shadow-sm bg-white form-pedido position-relative overflow-hidden flex-grow-1 d-flex flex-column justify-content-center">
-    <!-- Elemento decorativo de fondo, solo visual -->
+<form method="POST" action="" id="formPedido" class="p-4 border-0 rounded-4 shadow-sm bg-white form-pedido position-relative overflow-hidden flex-grow-1 d-flex flex-column justify-content-center" onsubmit="return validarPedido(event)">
     <div class="form-decorative-bg"></div>
     <div class="position-relative z-1">
 
@@ -35,7 +34,7 @@
         <div class="row mb-3 g-3">
             <div class="col-md-8">
                 <label for="plato" class="form-label fw-semibold">Plato Principal</label>
-                <select class="form-select bg-light border-0" id="plato" name="plato" required>
+                <select class="form-select bg-light border-0" id="plato" name="plato">
                     <option value="">Seleccione...</option>
                     <!-- Si hay cookie con el plato anterior, se marca como seleccionado -->
                     <option value="Hamburguesa" <?= (($_COOKIE['cliente_plato'] ?? '') === 'Hamburguesa') ? 'selected' : '' ?>>🍔 Hamburguesa — $8.00</option>
@@ -56,7 +55,7 @@
         <div class="row mb-3 g-3">
             <div class="col-md-6">
                 <label for="bebida" class="form-label fw-semibold">Bebida</label>
-                <select class="form-select bg-light border-0" id="bebida" name="bebida" required>
+                <select class="form-select bg-light border-0" id="bebida" name="bebida">
                     <option value="">Seleccione...</option>
                     <option value="Soda">🥤 Soda — $2.00</option>
                 </select>
@@ -94,7 +93,12 @@
                       placeholder="Sin cebolla, extra queso, alergia a..."></textarea>
         </div>
 
-        <!-- Botones: enviar pedido y borrar sesion/cookies -->
+        <!-- Error al no seleccionar ningún item -->
+        <div id="errorItem" class="alert alert-warning d-none py-2 mb-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>Debe seleccionar al menos un plato, bebida o postre.
+        </div>
+
+        <!-- Botones -->
         <div class="d-flex flex-column flex-sm-row gap-2 justify-content-between mt-4">
             <button type="submit" name="pedir" class="btn btn-danger btn-lg px-4 flex-grow-1 shadow-sm fw-bold">
                 <i class="bi bi-bag-check-fill me-2"></i>Realizar Pedido
@@ -107,3 +111,25 @@
 
     </div>
 </form>
+
+<script>
+function validarPedido(e) {
+    // Si se presionó el botón borrar, dejar pasar sin validar
+    if (document.activeElement && document.activeElement.name === 'borrar') return true;
+
+    const plato  = document.getElementById('plato').value;
+    const bebida = document.getElementById('bebida').value;
+    const postre = document.getElementById('postre').value;
+    const error  = document.getElementById('errorItem');
+
+    // Al menos uno de los tres debe estar seleccionado
+    if (!plato && !bebida && postre === 'Ninguno') {
+        e.preventDefault();
+        error.classList.remove('d-none');
+        return false;
+    }
+
+    error.classList.add('d-none');
+    return true;
+}
+</script>
