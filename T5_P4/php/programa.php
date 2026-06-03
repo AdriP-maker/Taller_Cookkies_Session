@@ -71,41 +71,98 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
 }
 ?>
 
-<div class="row">
-
-    <!-- Columna izquierda: formulario -->
-    <div class="col-lg-6 mb-4 d-flex flex-column">
+<!-- ───────────────────────────────────────────
+     FILA 1: Formulario centrado
+──────────────────────────────────────────── -->
+<div class="row justify-content-center mb-4">
+    <div class="col-lg-8 col-xl-7 d-flex flex-column">
         <?php include __DIR__ . '/../html/formulario.php'; ?>
-    </div>
-
-    <!-- Columna derecha: factura o estado vacío -->
-    <div class="col-lg-6 mb-4 d-flex flex-column">
-        <h4 class="mb-3 text-secondary"><i class="bi bi-clipboard-data me-2"></i>Resultados</h4>
-
-        <?php if (!empty($error)): ?>
-            <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-                <i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>
-                <span><?= htmlspecialchars($error) ?></span>
-            </div>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['factura'])): ?>
-            <?php
-            $factura = $_SESSION['factura'];
-            include __DIR__ . '/../html/factura.php';
-            ?>
-        <?php else: ?>
-            <div class="card border-0 shadow-sm bg-white text-center p-5 d-flex justify-content-center flex-grow-1">
-                <div class="card-body d-flex flex-column justify-content-center">
-                    <div class="display-1 text-danger mb-3 opacity-25"><i class="bi bi-receipt"></i></div>
-                    <h5 class="text-secondary fw-semibold">Sin pedidos activos</h5>
-                    <p class="text-muted mb-0">Complete el formulario para visualizar su factura y los datos almacenados en sesión y cookies.</p>
-                </div>
-            </div>
-        <?php endif; ?>
     </div>
 </div>
 
+<?php if (!empty($error)): ?>
+<div class="row justify-content-center mb-3">
+    <div class="col-lg-8 col-xl-7">
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+            <i class="bi bi-exclamation-triangle-fill flex-shrink-0"></i>
+            <span><?= htmlspecialchars($error) ?></span>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- ───────────────────────────────────────────
+     FILA 2: Factura centrada (solo si existe)
+──────────────────────────────────────────── -->
+<?php if (isset($_SESSION['factura'])): ?>
+<div class="row justify-content-center mb-4">
+    <div class="col-lg-8 col-xl-7 d-flex flex-column">
+        <h4 class="mb-3 text-secondary"><i class="bi bi-clipboard-data me-2"></i>Resultados</h4>
+        <?php
+        $factura = $_SESSION['factura'];
+        include __DIR__ . '/../html/factura.php';
+        ?>
+    </div>
+</div>
+<?php else: ?>
+<div class="row justify-content-center mb-4">
+    <div class="col-lg-8 col-xl-7">
+        <div class="card border-0 shadow-sm bg-white text-center p-5">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <div class="display-1 text-danger mb-3 opacity-25"><i class="bi bi-receipt"></i></div>
+                <h5 class="text-secondary fw-semibold">Sin pedidos activos</h5>
+                <p class="text-muted mb-0">Complete el formulario para visualizar su factura y los datos almacenados en sesión y cookies.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- ───────────────────────────────────────────
+     FILA 3: Acordeones $_SESSION y $_COOKIE
+──────────────────────────────────────────── -->
 <?php if (isset($_SESSION['pedido'])): ?>
-    <?php include __DIR__ . '/../html/arrays.php'; ?>
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-8 col-xl-7">
+        <h5 class="text-secondary fw-semibold mb-3"><i class="bi bi-code-slash me-2"></i>Datos Almacenados</h5>
+
+        <div class="accordion accordion-flush shadow-sm rounded-3 overflow-hidden" id="acordeonDatos">
+
+            <!-- Acordeón $_SESSION -->
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header" id="headingSession">
+                    <button class="accordion-button collapsed fw-bold text-danger bg-white" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseSession"
+                            aria-expanded="false" aria-controls="collapseSession">
+                        <i class="bi bi-box-seam-fill me-2"></i>Array $_SESSION
+                    </button>
+                </h2>
+                <div id="collapseSession" class="accordion-collapse collapse"
+                     aria-labelledby="headingSession" data-bs-parent="#acordeonDatos">
+                    <div class="accordion-body p-0">
+                        <pre class="m-0 p-3 bg-light small text-dark" style="overflow-x:auto;"><code><?= htmlspecialchars(print_r($_SESSION, true)) ?></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acordeón $_COOKIE -->
+            <div class="accordion-item border-0 border-top">
+                <h2 class="accordion-header" id="headingCookie">
+                    <button class="accordion-button collapsed fw-bold text-warning bg-white" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseCookie"
+                            aria-expanded="false" aria-controls="collapseCookie">
+                        <i class="bi bi-cookie me-2"></i>Array $_COOKIE
+                    </button>
+                </h2>
+                <div id="collapseCookie" class="accordion-collapse collapse"
+                     aria-labelledby="headingCookie" data-bs-parent="#acordeonDatos">
+                    <div class="accordion-body p-0">
+                        <pre class="m-0 p-3 bg-light small text-dark" style="overflow-x:auto;"><code><?= htmlspecialchars(print_r($_COOKIE, true)) ?></code></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 <?php endif; ?>
