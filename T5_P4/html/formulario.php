@@ -1,13 +1,16 @@
+<!-- Formulario para ingresar un nuevo pedido de restaurante -->
 <h4 class="mb-3 text-danger"><i class="bi bi-pencil-square me-2"></i>Nuevo Pedido</h4>
 
 <form method="POST" action="" class="p-4 border-0 rounded-4 shadow-sm bg-white form-pedido position-relative overflow-hidden flex-grow-1 d-flex flex-column justify-content-center">
+    <!-- Elemento decorativo de fondo, solo visual -->
     <div class="form-decorative-bg"></div>
     <div class="position-relative z-1">
 
-        <!-- Nombre y Edad -->
+        <!-- Nombre del cliente y edad -->
         <div class="row mb-3 g-3">
             <div class="col-md-7">
                 <label for="cliente" class="form-label fw-semibold">Nombre del Cliente</label>
+                <!-- El value se prellenara con la cookie si el cliente ya ordeno antes -->
                 <input type="text" class="form-control bg-light border-0" id="cliente" name="cliente"
                        required minlength="3" maxlength="60"
                        pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
@@ -17,6 +20,7 @@
             </div>
             <div class="col-md-5">
                 <label for="edad" class="form-label fw-semibold">Edad</label>
+                <!-- Se bloquean caracteres invalidos con onkeydown y se limita el largo con oninput -->
                 <input type="number" class="form-control bg-light border-0" id="edad" name="edad"
                        required min="10" max="120"
                        maxlength="3"
@@ -27,12 +31,13 @@
             </div>
         </div>
 
-        <!-- Plato Principal y Cantidad -->
+        <!-- Plato principal y cantidad -->
         <div class="row mb-3 g-3">
             <div class="col-md-8">
                 <label for="plato" class="form-label fw-semibold">Plato Principal</label>
                 <select class="form-select bg-light border-0" id="plato" name="plato" required>
                     <option value="">Seleccione...</option>
+                    <!-- Si hay cookie con el plato anterior, se marca como seleccionado -->
                     <option value="Hamburguesa" <?= (($_COOKIE['cliente_plato'] ?? '') === 'Hamburguesa') ? 'selected' : '' ?>>🍔 Hamburguesa — $8.00</option>
                     <option value="Pizza"       <?= (($_COOKIE['cliente_plato'] ?? '') === 'Pizza')       ? 'selected' : '' ?>>🍕 Pizza — $10.00</option>
                     <option value="Pasta"       <?= (($_COOKIE['cliente_plato'] ?? '') === 'Pasta')       ? 'selected' : '' ?>>🍝 Pasta — $12.00</option>
@@ -47,7 +52,7 @@
             </div>
         </div>
 
-        <!-- Bebida y Postre -->
+        <!-- Bebida y postre -->
         <div class="row mb-3 g-3">
             <div class="col-md-6">
                 <label for="bebida" class="form-label fw-semibold">Bebida</label>
@@ -58,6 +63,7 @@
             </div>
             <div class="col-md-6">
                 <label for="postre" class="form-label fw-semibold">Postre</label>
+                <!-- El postre es opcional, por defecto queda en Ninguno -->
                 <select class="form-select bg-light border-0" id="postre" name="postre">
                     <option value="Ninguno">Sin postre</option>
                     <option value="Postre">🍮 Postre — $3.00</option>
@@ -65,7 +71,7 @@
             </div>
         </div>
 
-        <!-- Tipo de Pago -->
+        <!-- Tipo de pago mediante radio buttons -->
         <div class="mb-3">
             <label class="form-label fw-semibold">Tipo de Pago</label>
             <div class="d-flex gap-4 bg-light p-3 rounded-3">
@@ -80,7 +86,7 @@
             </div>
         </div>
 
-        <!-- Comentarios -->
+        <!-- Campo opcional para notas adicionales del cliente -->
         <div class="mb-4">
             <label for="comentarios" class="form-label fw-semibold">Comentarios</label>
             <textarea class="form-control bg-light border-0" id="comentarios" name="comentarios"
@@ -88,12 +94,12 @@
                       placeholder="Sin cebolla, extra queso, alergia a..."></textarea>
         </div>
 
-        <!-- Botones -->
+        <!-- Botones: enviar pedido y borrar sesion/cookies -->
         <div class="d-flex flex-column flex-sm-row gap-2 justify-content-between mt-4">
             <button type="submit" name="pedir" class="btn btn-danger btn-lg px-4 flex-grow-1 shadow-sm fw-bold">
                 <i class="bi bi-bag-check-fill me-2"></i>Realizar Pedido
             </button>
-            <!-- Botón basura: borra sesión y cookies al enviarse -->
+            <!-- Boton de basura: borra sesion y cookies al enviarse -->
             <button type="submit" name="borrar" class="btn btn-light btn-lg text-danger border-0 shadow-sm" formnovalidate title="Limpiar sesión y cookies">
                 <i class="bi bi-trash3-fill"></i>
             </button>

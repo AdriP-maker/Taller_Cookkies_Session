@@ -1,7 +1,8 @@
 <?php
+// Incluye la clase Pedido para poder usarla en este archivo
 include_once __DIR__ . '/Pedido.php';
 
-// Si el usuario presiona el botón borrar, se limpia la sesión y las cookies
+// Si el usuario presiona el boton borrar, se limpia la sesion y las cookies
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])) {
     session_unset();
     session_destroy();
@@ -10,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])) {
     setcookie('cliente_nombre', '', time() - 3600, '/');
     setcookie('cliente_plato',  '', time() - 3600, '/');
 
+    // Redirige a la misma pagina para refrescar el estado
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
@@ -17,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])) {
 $pedidoGuardado = null;
 $error = '';
 
-// Procesar el formulario cuando se envía el pedido
+// Procesar el formulario cuando se envia el pedido
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
     try {
         // Recoger y sanitizar los datos del formulario
@@ -50,15 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
         $pedido  = new Pedido($cliente, $edad, $plato, $bebida, $postre, $cantidad, $tipo_pago, $comentarios);
         $detalle = $pedido->getDetalleFactura();
 
-        // Guardar cookies con duración de 1 hora (nombre del cliente y plato favorito)
+        // Guardar cookies con duracion de 1 hora (nombre del cliente y plato favorito)
         setcookie('cliente_nombre', $cliente, time() + 3600, '/');
         setcookie('cliente_plato',  $plato,   time() + 3600, '/');
 
-        // Actualizar $_COOKIE para que la vista las lea en la misma petición
+        // Actualizar $_COOKIE para que la vista las lea en la misma peticion
         $_COOKIE['cliente_nombre'] = $cliente;
         $_COOKIE['cliente_plato']  = $plato;
 
-        // Guardar el pedido, la factura y el total en sesión
+        // Guardar el pedido, la factura y el total en sesion
         $_SESSION['pedido']  = $detalle;
         $_SESSION['factura'] = $detalle;
         $_SESSION['total']   = $detalle['total'];
@@ -66,20 +68,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
         $pedidoGuardado = true;
 
     } catch (Exception $e) {
+        // Si algo falla, se guarda el mensaje de error para mostrarlo en pantalla
         $error = $e->getMessage();
     }
 }
 ?>
 
-<!-- ───────────────────────────────────────────
-     FILA 1: Formulario centrado
-──────────────────────────────────────────── -->
+<!-- Fila 1: Formulario centrado -->
 <div class="row justify-content-center mb-4">
     <div class="col-lg-8 col-xl-7 d-flex flex-column">
         <?php include __DIR__ . '/../html/formulario.php'; ?>
     </div>
 </div>
 
+<!-- Muestra el error si hubo algun problema con el formulario -->
 <?php if (!empty($error)): ?>
 <div class="row justify-content-center mb-3">
     <div class="col-lg-8 col-xl-7">
@@ -91,20 +93,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
 </div>
 <?php endif; ?>
 
-<!-- ───────────────────────────────────────────
-     FILA 2: Factura centrada (solo si existe)
-──────────────────────────────────────────── -->
+<!-- Fila 2: Factura centrada (solo si existe un pedido en sesion) -->
 <?php if (isset($_SESSION['factura'])): ?>
 <div class="row justify-content-center mb-4">
     <div class="col-lg-8 col-xl-7 d-flex flex-column">
         <h4 class="mb-3 text-secondary"><i class="bi bi-clipboard-data me-2"></i>Resultados</h4>
         <?php
+        // Pasa los datos de sesion a la vista de la factura
         $factura = $_SESSION['factura'];
         include __DIR__ . '/../html/factura.php';
         ?>
     </div>
 </div>
 <?php else: ?>
+<!-- Mensaje de estado vacio cuando no hay pedido activo -->
 <div class="row justify-content-center mb-4">
     <div class="col-lg-8 col-xl-7">
         <div class="card border-0 shadow-sm bg-white text-center p-5">
@@ -118,9 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
 </div>
 <?php endif; ?>
 
-<!-- ───────────────────────────────────────────
-     FILA 3: Acordeones $_SESSION y $_COOKIE
-──────────────────────────────────────────── -->
+<!-- Fila 3: Acordeones que muestran el contenido de $_SESSION y $_COOKIE (solo si hay un pedido) -->
 <?php if (isset($_SESSION['pedido'])): ?>
 <div class="row justify-content-center mb-5">
     <div class="col-lg-8 col-xl-7">
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
 
         <div class="accordion accordion-flush shadow-sm rounded-3 overflow-hidden" id="acordeonDatos">
 
-            <!-- Acordeón $_SESSION -->
+            <!-- Acordeon que muestra el contenido de $_SESSION -->
             <div class="accordion-item border-0">
                 <h2 class="accordion-header" id="headingSession">
                     <button class="accordion-button collapsed fw-bold text-danger bg-white" type="button"
@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
                 </div>
             </div>
 
-            <!-- Acordeón $_COOKIE -->
+            <!-- Acordeon que muestra el contenido de $_COOKIE -->
             <div class="accordion-item border-0 border-top">
                 <h2 class="accordion-header" id="headingCookie">
                     <button class="accordion-button collapsed fw-bold text-warning bg-white" type="button"

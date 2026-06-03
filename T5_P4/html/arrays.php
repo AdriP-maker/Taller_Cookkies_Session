@@ -1,8 +1,9 @@
-<!-- Vista de Arrays — P4 Restaurante -->
+<!-- Vista que muestra el contenido de $_SESSION y $_COOKIE en dos tarjetas lado a lado -->
 <div class="mt-4">
     <h5 class="text-secondary fw-semibold mb-3"><i class="bi bi-code-slash me-2"></i>Datos Almacenados</h5>
 
     <div class="row g-4">
+        <!-- Tarjeta con el contenido actual de la sesion -->
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white fw-bold text-danger border-bottom-0 pt-3 pb-0">
@@ -14,6 +15,7 @@
             </div>
         </div>
 
+        <!-- Tarjeta con el contenido actual de las cookies -->
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white fw-bold text-warning border-bottom-0 pt-3 pb-0">

@@ -1,5 +1,6 @@
-<!-- Factura P4 — Restaurante -->
+<!-- Factura del pedido: muestra el desglose de precios, descuentos e impuestos -->
 <div class="card shadow border-0 bg-white factura-card overflow-hidden flex-grow-1">
+    <!-- Encabezado de la factura con estado de confirmacion -->
     <div class="card-header text-white p-3 border-0 d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold"><i class="bi bi-receipt me-2"></i>Factura del Pedido</h5>
         <span class="badge bg-success rounded-pill px-3 py-2 shadow-sm"><i class="bi bi-check-circle-fill me-1"></i>Confirmado</span>
@@ -7,7 +8,7 @@
 
     <div class="card-body p-4">
 
-        <!-- Datos del cliente -->
+        <!-- Datos generales del cliente -->
         <div class="row mb-4 g-3">
             <div class="col-6">
                 <div class="text-muted small text-uppercase fw-bold mb-1">Cliente</div>
@@ -27,12 +28,14 @@
             </div>
         </div>
 
-        <!-- Desglose con foreach -->
+        <!-- Desglose de items usando foreach sobre un array asociativo -->
         <div class="p-3 bg-light rounded-3 mb-4 border border-light-subtle">
             <?php
+            // Se definen los precios de bebida y postre para el desglose
             $precioBebida = ($factura['bebida'] !== 'Ninguno') ? 2 : 0;
             $precioPostre = ($factura['postre'] !== 'Ninguno') ? 3 : 0;
 
+            // Array asociativo donde la clave es el concepto y el valor es el monto
             $desglose = [
                 "{$factura['plato']} ({$factura['cantidad']} x $" . number_format($factura['precio_plato'], 2) . ")"
                     => $factura['precio_plato'] * $factura['cantidad'],
@@ -42,6 +45,7 @@
                     => $precioPostre,
             ];
 
+            // Recorre el desglose y omite los items que el cliente no pidio
             foreach ($desglose as $concepto => $monto):
                 if ($monto == 0 && str_contains($concepto, 'Ninguno')) continue;
             ?>
@@ -51,13 +55,13 @@
             </div>
             <?php endforeach; ?>
 
-            <!-- Subtotal -->
+            <!-- Subtotal antes de descuento e impuesto -->
             <div class="d-flex justify-content-between fw-bold mb-2 pt-2 border-top border-secondary-subtle">
                 <span class="text-dark">Subtotal</span>
                 <span class="text-dark">$<?= number_format($factura['subtotal'], 2) ?></span>
             </div>
 
-            <!-- Descuento (solo si aplica) -->
+            <!-- Descuento del 15% para clientes de 55 anos o mas, solo aparece si aplica -->
             <?php if ($factura['descuento'] > 0): ?>
             <div class="d-flex justify-content-between text-success mb-2">
                 <span class="fw-medium"><i class="bi bi-tag-fill me-1"></i>Desc. (15% — 55+ años)</span>
@@ -65,20 +69,20 @@
             </div>
             <?php endif; ?>
 
-            <!-- ITBMS -->
+            <!-- ITBMS del 7% aplicado sobre el monto ya descontado -->
             <div class="d-flex justify-content-between text-muted mb-1">
                 <span>ITBMS (7%)</span>
                 <span>+$<?= number_format($factura['itbms'], 2) ?></span>
             </div>
         </div>
 
-        <!-- Total -->
+        <!-- Total final destacado -->
         <div class="d-flex justify-content-between align-items-end bg-danger bg-opacity-10 p-3 rounded-3 border border-danger-subtle">
             <h5 class="mb-0 text-danger fw-bold text-uppercase">Total a Pagar</h5>
             <h3 class="mb-0 text-danger fw-black">$<?= number_format($factura['total'], 2) ?></h3>
         </div>
 
-        <!-- Comentarios -->
+        <!-- Comentarios del cliente, solo se muestra si escribio algo -->
         <?php if (!empty($factura['comentarios'])): ?>
         <div class="mt-3 p-3 bg-light rounded-3 border border-light-subtle">
             <div class="text-muted small text-uppercase fw-bold mb-1"><i class="bi bi-chat-left-text me-1"></i>Comentarios</div>
