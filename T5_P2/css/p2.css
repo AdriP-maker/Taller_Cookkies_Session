@@ -1,1 +1,329 @@
-/* Estilos específicos de Programa 2 — Sesiones */
+/* ═══════════════════════════════════════════
+   FarmaPlus – p2.css
+   T5P2 – Estilos del Programa 2 (Farmacia)
+   Integrado al sistema general del Taller 5
+═══════════════════════════════════════════════ */
+
+/* ── Variables globales ───────────────────── */
+:root {
+  --verde-oscuro : #0d6e5e;
+  --verde-medio  : #14a88a;
+  --verde-claro  : #d4f5ef;
+  --acento       : #f0a500;
+  --fondo        : #f4faf9;
+  --texto        : #1a2e2b;
+  --gris-suave   : #e8f5f2;
+}
+
+/* ── Base (scoped para páginas P2 standalone) ── */
+body.p2-app, .p2-app {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--texto);
+}
+body.p2-app {
+  background: var(--fondo);
+  min-height: 100vh;
+}
+
+/* ══════════════════════════════════════════
+   HERO (index del P2)
+══════════════════════════════════════════ */
+.p2-hero {
+  background: linear-gradient(135deg, var(--verde-oscuro) 0%, var(--verde-medio) 100%);
+  padding: 3rem 2rem 2.5rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.p2-hero::after {
+  content: '+';
+  font-size: 18rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .04);
+  position: absolute;
+  right: -2rem;
+  top: -3rem;
+  line-height: 1;
+  pointer-events: none;
+}
+.p2-hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.4rem;
+  line-height: 1.15;
+}
+.p2-hero p { opacity: .85; max-width: 520px; }
+
+/* ══════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════ */
+.card-main,
+.card-section {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(13, 110, 94, .10);
+  border: none;
+}
+.card-section {
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(13, 110, 94, .08);
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  color: var(--verde-oscuro);
+  font-size: 1.15rem;
+  border-left: 4px solid var(--verde-medio);
+  padding-left: .75rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ══════════════════════════════════════════
+   TABLA PRECIOS
+══════════════════════════════════════════ */
+.price-table td,
+.price-table th { padding: .45rem .9rem; font-size: .88rem; }
+.price-table thead { background: var(--verde-oscuro); color: #fff; }
+.price-table tbody tr:nth-child(odd) { background: var(--gris-suave); }
+
+/* ══════════════════════════════════════════
+   FORMULARIO (scoped bajo .p2-app)
+══════════════════════════════════════════ */
+body.p2-app .form-label,
+.p2-app .form-label {
+  font-weight: 500;
+  font-size: .88rem;
+  color: #555;
+  margin-bottom: .3rem;
+}
+body.p2-app .form-control,
+.p2-app .form-control,
+body.p2-app .form-select,
+.p2-app .form-select {
+  border-radius: 10px;
+  border: 1.5px solid #d3e8e4;
+  font-size: .92rem;
+  padding: .55rem .9rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+body.p2-app .form-control:focus,
+.p2-app .form-control:focus,
+body.p2-app .form-select:focus,
+.p2-app .form-select:focus {
+  border-color: var(--verde-medio);
+  box-shadow: 0 0 0 3px rgba(20, 168, 138, .15);
+}
+body.p2-app .input-group-text,
+.p2-app .input-group-text {
+  background: var(--gris-suave);
+  border-color: #d3e8e4;
+  color: var(--verde-oscuro);
+  border-radius: 10px 0 0 10px;
+}
+
+/* ── Botones ────────────────────────────── */
+.btn-primary-custom {
+  background-color: var(--verde-oscuro) !important;
+  border: none;
+  border-radius: 12px;
+  padding: .75rem 2.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: .3px;
+  transition: background-color .2s, transform .15s;
+}
+.btn-primary-custom:hover {
+  background-color: var(--verde-medio) !important;
+  transform: translateY(-2px);
+}
+
+.btn-danger-custom {
+  background-color: #c0392b !important;
+  border: none;
+  border-radius: 12px;
+  padding: .6rem 1.6rem;
+  font-weight: 600;
+  font-size: .92rem;
+  transition: background-color .2s;
+}
+.btn-danger-custom:hover { background-color: #96281b !important; }
+
+.btn-volver {
+  background-color: var(--verde-oscuro) !important;
+  border: none;
+  border-radius: 12px;
+  padding: .7rem 1.8rem;
+  font-weight: 600;
+  color: #fff !important;
+  transition: background-color .2s, transform .15s;
+}
+.btn-volver:hover {
+  background-color: var(--verde-medio) !important;
+  transform: translateY(-2px);
+  color: #fff !important;
+}
+
+/* ── Cookie alert ───────────────────────── */
+.cookie-alert {
+  background: linear-gradient(90deg, #fff8e1, #fffde7);
+  border-left: 4px solid var(--acento);
+  border-radius: 10px;
+  padding: .85rem 1.1rem;
+  font-size: .88rem;
+}
+
+/* ══════════════════════════════════════════
+   CONFIRMACIÓN – Banner éxito
+══════════════════════════════════════════ */
+.banner-success {
+  background: linear-gradient(135deg, var(--verde-oscuro), var(--verde-medio));
+  color: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 0 0 24px 24px;
+}
+.banner-success h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+}
+.checkmark {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+.badge-cookie {
+  background: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  font-size: .78rem;
+  padding: 4px 10px;
+}
+.badge-sesion {
+  background: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #17a2b8;
+  border-radius: 8px;
+  font-size: .78rem;
+  padding: 4px 10px;
+}
+
+/* ── Tabla detalle pedido ───────────────── */
+.tbl-data td {
+  padding: .5rem .8rem;
+  font-size: .9rem;
+  border-bottom: 1px solid #eef5f3;
+}
+.tbl-data tr:last-child td { border-bottom: none; }
+.tbl-data .lbl {
+  color: #666;
+  font-weight: 500;
+  width: 40%;
+}
+
+/* ── Factura ────────────────────────────── */
+.factura-row {
+  display: flex;
+  justify-content: space-between;
+  padding: .45rem 0;
+  font-size: .92rem;
+  border-bottom: 1px solid #eef5f3;
+}
+.factura-row:last-child { border-bottom: none; }
+.factura-total {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.4rem;
+  color: var(--verde-oscuro);
+}
+.factura-desc { color: #e67e22; font-weight: 600; }
+.factura-recargo { color: #1d6fa5; }
+
+/* ══════════════════════════════════════════
+   ARRAY DUMP BOX
+══════════════════════════════════════════ */
+.array-box {
+  background: #0d1117;
+  color: #7ee787;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  font-family: 'Courier New', monospace;
+  font-size: .82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.array-key   { color: #79c0ff; }
+.array-val   { color: #ffa657; }
+.array-title { color: #f2cc60; font-weight: bold; }
+
+/* ══════════════════════════════════════════
+   DESTRUIR – Layout centrado
+══════════════════════════════════════════ */
+body.p2-destruir {
+  display: flex;
+  flex-direction: column;
+}
+.p2-main-destroy {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+.card-destroy {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(13, 110, 94, .10);
+  padding: 3rem 2.5rem;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+}
+.icon-circle {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2.5rem;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(192, 57, 43, .35);
+}
+.card-destroy h2 {
+  font-family: 'DM Serif Display', serif;
+  color: var(--verde-oscuro);
+  font-size: 1.8rem;
+}
+.status-list {
+  text-align: left;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .4rem 0;
+  font-size: .9rem;
+  border-bottom: 1px solid #eee;
+}
+.status-item:last-child { border-bottom: none; }
+.status-icon-ok   { color: #27ae60; font-size: 1.1rem; }
+.status-icon-info { color: #e67e22; font-size: 1.1rem; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 576px) {
+  .p2-hero h1 { font-size: 1.7rem; }
+  .banner-success { flex-direction: column; }
+  .card-destroy { padding: 2rem 1.2rem; }
+}
