@@ -11,45 +11,171 @@ $precios = [
 ];
 
 /* ═══════════════════════════════════════════════════════
-   VALIDAR DATOS DEL FORMULARIO
+   DEFINICIÓN DE CLASES (POO)
 ═══════════════════════════════════════════════════════ */
-$errores = [];
 
-$nombre = isset($_POST['nombre']) ? trim(htmlspecialchars($_POST['nombre'])) : '';
-if (empty($nombre)) $errores[] = 'El nombre es obligatorio.';
+/**
+ * Clase que representa el Pedido de medicamentos de un cliente.
+ */
+class Pedido {
+    private $nombre;
+    private $edad;
+    private $medicamento;
+    private $cantidad;
+    private $tipoEntrega;
+    private $telefono;
+    private $fechaRetiro;
 
-$edad = isset($_POST['edad']) ? intval($_POST['edad']) : 0;
-if ($edad < 1 || $edad > 120) $errores[] = 'Ingrese una edad válida (1–120).';
+    public function __construct($nombre, $edad, $medicamento, $cantidad, $tipoEntrega, $telefono, $fechaRetiro) {
+        $this->nombre = $nombre;
+        $this->edad = $edad;
+        $this->medicamento = $medicamento;
+        $this->cantidad = $cantidad;
+        $this->tipoEntrega = $tipoEntrega;
+        $this->telefono = $telefono;
+        $this->fechaRetiro = $fechaRetiro;
+    }
 
-$medicamento = isset($_POST['medicamento']) ? trim($_POST['medicamento']) : '';
-if (!array_key_exists($medicamento, $precios)) $errores[] = 'Seleccione un medicamento válido.';
+    // Getters
+    public function getNombre() { return $this->nombre; }
+    public function getEdad() { return $this->edad; }
+    public function getMedicamento() { return $this->medicamento; }
+    public function getCantidad() { return $this->cantidad; }
+    public function getTipoEntrega() { return $this->tipoEntrega; }
+    public function getTelefono() { return $this->telefono; }
+    public function getFechaRetiro() { return $this->fechaRetiro; }
 
-$cantidad_raw = isset($_POST['cantidad']) ? trim($_POST['cantidad']) : '';
-if ($cantidad_raw === '') {
-    $errores[] = 'La cantidad de cajas es obligatoria.';
-} elseif (!preg_match('/^[0-9]+$/', $cantidad_raw)) {
-    $errores[] = 'La cantidad de cajas solo debe contener números enteros (sin letras ni caracteres especiales).';
-} else {
-    $cantidad = intval($cantidad_raw);
-    if ($cantidad < 1 || $cantidad > 3) {
-        $errores[] = 'La cantidad debe ser entre 1 y 3 cajas.';
+    /**
+     * Determina si el cliente pertenece a la tercera edad (60+ años).
+     */
+    public function esTerceraEdad() {
+        return $this->edad >= 60;
+    }
+
+    /**
+     * Valida los atributos del pedido.
+     * Retorna un array con los mensajes de error encontrados.
+     */
+    public function validar($preciosValidos) {
+        $errores = [];
+
+        if (empty($this->nombre)) {
+            $errores[] = 'El nombre es obligatorio.';
+        }
+
+        if ($this->edad < 1 || $this->edad > 120) {
+            $errores[] = 'Ingrese una edad válida (1–120).';
+        }
+
+        if (!array_key_exists($this->medicamento, $preciosValidos)) {
+            $errores[] = 'Seleccione un medicamento válido.';
+        }
+
+        if ($this->cantidad < 1 || $this->cantidad > 3) {
+            $errores[] = 'La cantidad debe ser entre 1 y 3 cajas.';
+        }
+
+        if (empty($this->tipoEntrega)) {
+            $errores[] = 'Seleccione un tipo de entrega.';
+        }
+
+        if (empty($this->telefono)) {
+            $errores[] = 'El teléfono es obligatorio.';
+        } elseif (!preg_match('/^[0-9]+$/', $this->telefono)) {
+            $errores[] = 'El teléfono solo debe contener números enteros (sin letras ni caracteres especiales).';
+        } elseif (strlen($this->telefono) !== 8) {
+            $errores[] = 'el formato de numero debe tener 8 digitos';
+        }
+
+        if (empty($this->fechaRetiro)) {
+            $errores[] = 'Seleccione una fecha de retiro.';
+        }
+
+        return $errores;
+    }
+
+    /**
+     * Exporta los datos del objeto como un array asociativo.
+     */
+    public function toArray() {
+        return [
+            'nombre'       => $this->nombre,
+            'edad'         => $this->edad,
+            'medicamento'  => $this->medicamento,
+            'cantidad'     => $this->cantidad,
+            'tipo_entrega' => $this->tipoEntrega,
+            'telefono'     => $this->telefono,
+            'fecha_retiro' => $this->fechaRetiro,
+        ];
     }
 }
 
-$tipo_entrega = isset($_POST['tipo_entrega']) ? trim($_POST['tipo_entrega']) : '';
-if (empty($tipo_entrega)) $errores[] = 'Seleccione un tipo de entrega.';
+/**
+ * Clase que gestiona los cálculos e importes de la Factura.
+ */
+class Factura {
+    private $pedido;
+    private $precioUnitario;
+    private $subtotal;
+    private $descuento;
+    private $recargoDelivery;
+    private $total;
 
-$telefono = isset($_POST['telefono']) ? trim(htmlspecialchars($_POST['telefono'])) : '';
-if (empty($telefono)) {
-    $errores[] = 'El teléfono es obligatorio.';
-} elseif (!preg_match('/^[0-9]+$/', $telefono)) {
-    $errores[] = 'El teléfono solo debe contener números enteros (sin letras ni caracteres especiales).';
-} elseif (strlen($telefono) !== 8) {
-    $errores[] = 'el formato de numero debe tener 8 digitos';
+    public function __construct(Pedido $pedido, $precios) {
+        $this->pedido = $pedido;
+        $this->precioUnitario = isset($precios[$pedido->getMedicamento()]) ? $precios[$pedido->getMedicamento()] : 0.0;
+        $this->calcular();
+    }
+
+    /**
+     * Realiza todos los cálculos del subtotal, descuento, delivery y total.
+     */
+    private function calcular() {
+        $this->subtotal = $this->precioUnitario * $this->pedido->getCantidad();
+        
+        $porcentajeDesc = $this->pedido->esTerceraEdad() ? 10 : 0;
+        $this->descuento = round($this->subtotal * ($porcentajeDesc / 100), 2);
+        
+        $subtotalConDesc = $this->subtotal - $this->descuento;
+        $this->recargoDelivery = ($this->pedido->getTipoEntrega() === 'Delivery') ? 3.00 : 0.00;
+        
+        $this->total = $subtotalConDesc + $this->recargoDelivery;
+    }
+
+    /**
+     * Exporta los detalles de la factura como un array asociativo.
+     */
+    public function toArray() {
+        return [
+            'precio_unitario'  => $this->precioUnitario,
+            'subtotal'         => $this->subtotal,
+            'es_tercera_edad'  => $this->pedido->esTerceraEdad(),
+            'porcentaje_desc'  => $this->pedido->esTerceraEdad() ? 10 : 0,
+            'descuento'        => $this->descuento,
+            'recargo_delivery' => $this->recargoDelivery,
+            'total'            => $this->total,
+        ];
+    }
 }
 
+/* ═══════════════════════════════════════════════════════
+   PROCESAMIENTO DE DATOS (POO)
+═══════════════════════════════════════════════════════ */
+
+// Captura de datos POST
+$nombre       = isset($_POST['nombre']) ? trim(htmlspecialchars($_POST['nombre'])) : '';
+$edad         = isset($_POST['edad']) ? intval($_POST['edad']) : 0;
+$medicamento  = isset($_POST['medicamento']) ? trim($_POST['medicamento']) : '';
+$cantidad     = isset($_POST['cantidad']) ? intval($_POST['cantidad']) : 0;
+$tipo_entrega = isset($_POST['tipo_entrega']) ? trim($_POST['tipo_entrega']) : '';
+$telefono     = isset($_POST['telefono']) ? trim(htmlspecialchars($_POST['telefono'])) : '';
 $fecha_retiro = isset($_POST['fecha_retiro']) ? trim($_POST['fecha_retiro']) : '';
-if (empty($fecha_retiro)) $errores[] = 'Seleccione una fecha de retiro.';
+
+// 1. Instanciar el objeto Pedido
+$pedidoObj = new Pedido($nombre, $edad, $medicamento, $cantidad, $tipo_entrega, $telefono, $fecha_retiro);
+
+// 2. Validar el pedido con el método del objeto
+$errores = $pedidoObj->validar($precios);
 
 /* ── Redirigir si hay errores ── */
 if (!empty($errores)) {
@@ -59,51 +185,18 @@ if (!empty($errores)) {
     exit;
 }
 
-/* ═══════════════════════════════════════════════════════
-   CÁLCULO DE FACTURA
-═══════════════════════════════════════════════════════ */
-$precio_unitario  = $precios[$medicamento];
-$subtotal         = $precio_unitario * $cantidad;
+// 3. Instanciar la Factura pasando el objeto Pedido (Composición)
+$facturaObj = new Factura($pedidoObj, $precios);
 
-$es_tercera_edad  = ($edad >= 60);
-$porcentaje_desc  = $es_tercera_edad ? 10 : 0;
-$descuento        = round($subtotal * ($porcentaje_desc / 100), 2);
-$subtotal_desc    = $subtotal - $descuento;
-
-$recargo_delivery = ($tipo_entrega === 'Delivery') ? 3.00 : 0.00;
-$total            = $subtotal_desc + $recargo_delivery;
-
-/* ═══════════════════════════════════════════════════════
-   ARRAY $pedido
-═══════════════════════════════════════════════════════ */
-$pedido = [
-    'nombre'       => $nombre,
-    'edad'         => $edad,
-    'medicamento'  => $medicamento,
-    'cantidad'     => $cantidad,
-    'tipo_entrega' => $tipo_entrega,
-    'telefono'     => $telefono,
-    'fecha_retiro' => $fecha_retiro,
-];
-
-/* ═══════════════════════════════════════════════════════
-   ARRAY $factura
-═══════════════════════════════════════════════════════ */
-$factura = [
-    'precio_unitario'  => $precio_unitario,
-    'subtotal'         => $subtotal,
-    'es_tercera_edad'  => $es_tercera_edad,
-    'porcentaje_desc'  => $porcentaje_desc,
-    'descuento'        => $descuento,
-    'recargo_delivery' => $recargo_delivery,
-    'total'            => $total,
-];
+// 4. Convertir a arrays para mantener compatibilidad y almacenamiento
+$pedido  = $pedidoObj->toArray();
+$factura = $facturaObj->toArray();
 
 /* ═══════════════════════════════════════════════════════
    COOKIES – nombre y tipo de entrega favorita (30 días)
 ═══════════════════════════════════════════════════════ */
-setcookie('nombre_cliente', $nombre,       time() + (86400 * 30), '/');
-setcookie('tipo_entrega',   $tipo_entrega, time() + (86400 * 30), '/');
+setcookie('nombre_cliente', $pedido['nombre'],       time() + (86400 * 30), '/');
+setcookie('tipo_entrega',   $pedido['tipo_entrega'], time() + (86400 * 30), '/');
 
 /* ═══════════════════════════════════════════════════════
    SESIÓN – pedido completo + factura
