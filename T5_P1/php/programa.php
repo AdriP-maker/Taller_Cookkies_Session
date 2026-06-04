@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reservar'])) {
         $reserva = new Reserva($cliente, $edad, $sala, $tipo_pelicula, $cantidad_boletos, $tiene_combo);
         $detalleFactura = $reserva->getDetalleFactura();
         
-        // Guardar COOKIES (1 hora)
+        // Guardar COOKIES EN 1 hora
         setcookie('cliente_nombre', $cliente, time() + 3600, '/');
         setcookie('cliente_pelicula', $tipo_pelicula, time() + 3600, '/');
         
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reservar'])) {
 }
 ?>
 
-<!-- Vistas separadas (Patrón de diseño y buenas prácticas) -->
+<!-- Vistas separadas-->
 <div class="row">
     <div class="col-lg-6 mb-4 d-flex flex-column">
         <?php include __DIR__ . '/../html/formulario.php'; ?>
