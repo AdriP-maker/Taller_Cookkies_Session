@@ -175,7 +175,7 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                 <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ej. 68001234"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '')" min="6" max="15" required>
+                  minlength="8" maxlength="8" required>
               </div>
             </div>
           </div>

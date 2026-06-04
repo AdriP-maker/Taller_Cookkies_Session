@@ -132,7 +132,12 @@ if (pagina === 'index.php' || pagina === 'T5_P2.php' || pagina === 'index.html' 
       }
     });
     telefonoInput.addEventListener('input', function() {
-      this.value = this.value.replace(/[^0-9]/g, '');
+      this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);
+      if (this.value.length > 0 && this.value.length !== 8) {
+        this.setCustomValidity('el formato de numero debe tener 8 digitos');
+      } else {
+        this.setCustomValidity('');
+      }
     });
   }
 }
