@@ -1,7 +1,7 @@
 <?php
 // Evitar múltiples session_start si ya está activa
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 // Guardar la página de entrada de P2 en la sesión para retornar adecuadamente después de procesar
@@ -24,17 +24,21 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
   <div class="p2-hero mb-4 rounded-4">
     <div class="container py-2">
       <h2 class="h1 fw-bold text-white mb-2" style="font-family: 'DM Serif Display', serif;">Pedido de Medicamentos</h2>
-      <p class="mb-0 opacity-85">Registre su pedido con entrega a domicilio o retiro en tienda. Máximo <strong>3 cajas</strong> por cliente.</p>
+      <p class="mb-0 opacity-85">Registre su pedido con entrega a domicilio o retiro en tienda. Máximo <strong>3
+          cajas</strong> por cliente.</p>
     </div>
   </div>
 
   <!-- Aviso cookie (visible solo si JS o PHP detecta cookie guardada) -->
-  <div id="aviso-cookie" class="cookie-alert mb-4 align-items-center gap-3" style="display: <?php echo (!empty($nombre_cookie) || !empty($entrega_cookie)) ? 'flex' : 'none'; ?>;">
+  <div id="aviso-cookie" class="cookie-alert mb-4 align-items-center gap-3"
+    style="display: <?php echo (!empty($nombre_cookie) || !empty($entrega_cookie)) ? 'flex' : 'none'; ?>;">
     <i class="bi bi-cookie fs-4 text-warning"></i>
     <div>
-      <strong>¡Bienvenido de vuelta, <span id="cookie-nombre"><?php echo !empty($nombre_cookie) ? $nombre_cookie : 'Cliente'; ?></span>!</strong><br>
+      <strong>¡Bienvenido de vuelta, <span
+          id="cookie-nombre"><?php echo !empty($nombre_cookie) ? $nombre_cookie : 'Cliente'; ?></span>!</strong><br>
       Detectamos sus preferencias guardadas: entrega preferida =
-      <span id="cookie-entrega" class="fw-bold"><?php echo !empty($entrega_cookie) ? $entrega_cookie : 'Ninguna'; ?></span>.
+      <span id="cookie-entrega"
+        class="fw-bold"><?php echo !empty($entrega_cookie) ? $entrega_cookie : 'Ninguna'; ?></span>.
       El formulario fue pre-llenado.
     </div>
   </div>
@@ -46,7 +50,8 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
 
       <!-- Mostrar errores de validación de PHP si existen -->
       <?php if (!empty($errores)): ?>
-        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" style="border-radius:12px; box-shadow: 0 4px 15px rgba(220,53,69,.15);">
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert"
+          style="border-radius:12px; box-shadow: 0 4px 15px rgba(220,53,69,.15);">
           <div class="fw-bold mb-1">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>Por favor corrija los siguientes errores:
           </div>
@@ -117,16 +122,16 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
               <label class="form-label" for="nombre">Nombre Completo</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-person"></i></span>
-                <input type="text" class="form-control" id="nombre" name="nombre"
-                       placeholder="Ej. María González" value="<?php echo $nombre_cookie; ?>" required>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. María González"
+                  value="<?php echo $nombre_cookie; ?>" required>
               </div>
             </div>
             <div class="col-sm-5">
               <label class="form-label" for="edad">Edad</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
-                <input type="number" class="form-control" id="edad" name="edad"
-                       placeholder="Años" min="1" max="120" required>
+                <input type="number" class="form-control" id="edad" name="edad" placeholder="Años" min="1" max="120"
+                  required>
               </div>
             </div>
           </div>
@@ -146,8 +151,8 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
               <label class="form-label" for="cantidad">Cantidad (cajas)</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-boxes"></i></span>
-                <input type="number" class="form-control" id="cantidad" name="cantidad"
-                       placeholder="1 – 3" min="1" max="3" required>
+                <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="1 – 3" min="1"
+                  max="3" required>
               </div>
               <div class="form-text text-danger">Máximo 3 cajas.</div>
             </div>
@@ -158,18 +163,19 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
             <div class="col-sm-6">
               <label class="form-label" for="tipo_entrega">Tipo de Entrega</label>
               <select class="form-select" id="tipo_entrega" name="tipo_entrega" required>
-                <option value="" disabled <?php echo empty($entrega_cookie) ? 'selected' : ''; ?>>-- Seleccione --</option>
+                <option value="" disabled <?php echo empty($entrega_cookie) ? 'selected' : ''; ?>>-- Seleccione --
+                </option>
                 <option value="Retiro en tienda" <?php echo ($entrega_cookie === 'Retiro en tienda') ? 'selected' : ''; ?>>🏪 Retiro en tienda</option>
-                <option value="Delivery" <?php echo ($entrega_cookie === 'Delivery') ? 'selected' : ''; ?>>🚚 Delivery (+$3.00)</option>
+                <option value="Delivery" <?php echo ($entrega_cookie === 'Delivery') ? 'selected' : ''; ?>>🚚 Delivery
+                  (+$3.00)</option>
               </select>
             </div>
             <div class="col-sm-6">
               <label class="form-label" for="telefono">Teléfono</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                <input type="tel" class="form-control" id="telefono" name="telefono"
-                    placeholder="Ej. 68001234" 
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ej. 68001234"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')" min="6" max="15" required>
               </div>
             </div>
           </div>
@@ -180,8 +186,7 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
               <label class="form-label" for="fecha_retiro">Fecha de Retiro</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
-                <input type="date" class="form-control" id="fecha_retiro"
-                       name="fecha_retiro" required>
+                <input type="date" class="form-control" id="fecha_retiro" name="fecha_retiro" required>
               </div>
             </div>
           </div>
@@ -219,7 +224,8 @@ $p2DestruirLink = 'T5_P2/php/destruir.php';
         <ol style="font-size:.84rem;padding-left:1.2rem;line-height:1.8;">
           <li>Complete el formulario y envíe.</li>
           <li>Su <strong>nombre</strong> y <strong>tipo de entrega</strong> se guardan en
-            <em>cookies</em> (30 días).</li>
+            <em>cookies</em> (30 días).
+          </li>
           <li>El <strong>pedido completo</strong> y la <strong>factura</strong> se guardan
             en <em>sesión</em>.</li>
           <li>Use el botón <em>"Destruir Sesión"</em> para limpiar todo.</li>
