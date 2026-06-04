@@ -110,6 +110,31 @@ if (pagina === 'index.php' || pagina === 'T5_P2.php' || pagina === 'index.html' 
   if (campoFecha) {
     campoFecha.min = new Date().toISOString().split('T')[0];
   }
+
+  // ── Validación de inputs (sin letra 'e' ni caracteres especiales) ──
+  const cantidadInput = document.getElementById('cantidad');
+  if (cantidadInput) {
+    cantidadInput.addEventListener('keydown', function(e) {
+      if (['e', 'E', '+', '-', '.', ','].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+    cantidadInput.addEventListener('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+  }
+
+  const telefonoInput = document.getElementById('telefono');
+  if (telefonoInput) {
+    telefonoInput.addEventListener('keydown', function(e) {
+      if (['e', 'E', '+', '-', '.', ','].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+    telefonoInput.addEventListener('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+  }
 }
 
 

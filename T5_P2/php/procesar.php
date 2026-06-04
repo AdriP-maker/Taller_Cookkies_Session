@@ -24,8 +24,17 @@ if ($edad < 1 || $edad > 120) $errores[] = 'Ingrese una edad válida (1–120).'
 $medicamento = isset($_POST['medicamento']) ? trim($_POST['medicamento']) : '';
 if (!array_key_exists($medicamento, $precios)) $errores[] = 'Seleccione un medicamento válido.';
 
-$cantidad = isset($_POST['cantidad']) ? intval($_POST['cantidad']) : 0;
-if ($cantidad < 1 || $cantidad > 3) $errores[] = 'La cantidad debe ser entre 1 y 3 cajas.';
+$cantidad_raw = isset($_POST['cantidad']) ? trim($_POST['cantidad']) : '';
+if ($cantidad_raw === '') {
+    $errores[] = 'La cantidad de cajas es obligatoria.';
+} elseif (!preg_match('/^[0-9]+$/', $cantidad_raw)) {
+    $errores[] = 'La cantidad de cajas solo debe contener números enteros (sin letras ni caracteres especiales).';
+} else {
+    $cantidad = intval($cantidad_raw);
+    if ($cantidad < 1 || $cantidad > 3) {
+        $errores[] = 'La cantidad debe ser entre 1 y 3 cajas.';
+    }
+}
 
 $tipo_entrega = isset($_POST['tipo_entrega']) ? trim($_POST['tipo_entrega']) : '';
 if (empty($tipo_entrega)) $errores[] = 'Seleccione un tipo de entrega.';
@@ -34,7 +43,7 @@ $telefono = isset($_POST['telefono']) ? trim(htmlspecialchars($_POST['telefono']
 if (empty($telefono)) {
     $errores[] = 'El teléfono es obligatorio.';
 } elseif (!preg_match('/^[0-9]+$/', $telefono)) {
-    $errores[] = 'El teléfono solo debe contener números.';
+    $errores[] = 'El teléfono solo debe contener números enteros (sin letras ni caracteres especiales).';
 }
 
 $fecha_retiro = isset($_POST['fecha_retiro']) ? trim($_POST['fecha_retiro']) : '';
