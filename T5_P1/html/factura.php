@@ -27,7 +27,7 @@
         
         <div class="p-3 bg-light rounded-3 mb-4 border border-light-subtle">
             <?php
-            // Aplicamos un foreach sobre un arreglo de desglose para cumplir al 100% el requerimiento de la rúbrica "Arrays asociativos y foreach"
+            // Aplicamos un foreach 
             $desglose = [
                 "Boletos ({$factura['cantidad_boletos']} x $6.00)" => $factura['cantidad_boletos'] * 6,
                 "Combo de Comida" => $factura['tiene_combo'] === 'No' ? 0 : 4
