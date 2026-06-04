@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $pageTitle ?></title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../css/p3.css">
+</head>
+
+<body>
+
+    <?php include __DIR__ . '/../../php/nav.php'; ?>
+
+    <div class="container py-4">
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.php" class="text-decoration-none"><i class="bi bi-house me-1"></i>Inicio</a></li>
+                <li class="breadcrumb-item"><a href="../../T5_P3.php" class="text-decoration-none">Programa 3</a></li>
+                <li class="breadcrumb-item active">Resultado</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="prog-icon bg-warning bg-opacity-10 text-warning flex-shrink-0"><i class="bi bi-mortarboard"></i></div>
+            <div>
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle mb-1">Programa 03</span>
+                <h1 class="h3 fw-bold mb-0">Inscripción procesada</h1>
+                <p class="text-muted small mb-0">Factura, sesión y cookies del estudiante</p>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom fw-semibold d-flex align-items-center gap-2">
+                <i class="bi bi-receipt text-warning"></i>Resultado de la inscripción
+            </div>
+            <div class="card-body p3-app">
+
+                <div class="p3-card">
+                    <h3>Factura generada de $_SESSION</h3>
+
+                    <div class="factura-row">
+                        <span><strong>Estudiante:</strong></span>
+                        <span><?= $_SESSION["datos"]["estudiante"]["nombre"] ?></span>
+                    </div>
+                    <div class="factura-row">
+                        <span><strong>Curso inscrito:</strong></span>
+                        <span><?= $_SESSION["datos"]["inscripcion"]["curso"] ?></span>
+                    </div>
+                    <div class="factura-row">
+                        <span><strong>Modalidad / turno:</strong></span>
+                        <span><?= $_SESSION["datos"]["inscripcion"]["modalidad"] ?> (<?= $_SESSION["datos"]["inscripcion"]["turno"] ?>)</span>
+                    </div>
+                    <div class="factura-row">
+                        <span><strong>Módulos solicitados:</strong></span>
+                        <span><?= $_SESSION["datos"]["inscripcion"]["modulos"] ?></span>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="factura-row">
+                        <span>Subtotal:</span>
+                        <span>$<?= $_SESSION["datos"]["factura"]["subtotal"] ?></span>
+                    </div>
+                    <div class="factura-row">
+                        <span>Descuento aplicado:</span>
+                        <span style="color: #16a34a;">- $<?= $_SESSION["datos"]["factura"]["descuento"] ?></span>
+                    </div>
+                    <div class="factura-row">
+                        <span>ITBMS (7%):</span>
+                        <span>+ $<?= $_SESSION["datos"]["factura"]["itbms"] ?></span>
+                    </div>
+
+                    <div class="factura-total">
+                        <span>TOTAL A PAGAR:</span>
+                        <span>$<?= $_SESSION["datos"]["factura"]["total"] ?></span>
+                    </div>
+                </div>
+
+                <div class="p3-card">
+                    <h3>Evidencia técnica: inspección e impresión de estructuras</h3>
+
+                    <p class="mb-2"><strong>1. Recorrido del array maestro $cursos (estructura de precios):</strong></p>
+                    <pre><?php print_r($cursos); ?></pre>
+
+                    <p class="mb-2"><strong>2. Contenido del array local $estudiante (llenado con FOR):</strong></p>
+                    <pre><?php print_r($estudiante); ?></pre>
+
+                    <p class="mb-2"><strong>3. Contenido total de la variable global $_SESSION["datos"]:</strong></p>
+                    <pre><?php print_r($_SESSION["datos"]); ?></pre>
+
+                    <p class="mb-2"><strong>4. Lectura de cookies del estudiante en $_COOKIE (ciclo + print_r):</strong></p>
+                    <pre><?php
+                    $cookiesEstudiante = [];
+                    $clavesP3 = ['nombre_estudiante', 'correo_estudiante', 'telefono_estudiante', 'curso_favorito'];
+                    foreach ($_COOKIE as $clave => $valor) {
+                        if (in_array($clave, $clavesP3, true)) {
+                            $cookiesEstudiante[$clave] = $valor;
+                        }
+                    }
+                    print_r($cookiesEstudiante);
+                ?></pre>
+                </div>
+
+                <div class="btn-row">
+                    <a href="<?= htmlspecialchars($p3_return_link) ?>" class="p3-btn p3-btn-secondary">Nueva inscripción</a>
+                    <a href="destruir.php" class="p3-btn p3-btn-danger">Destruir sesión y cookies</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <?php include __DIR__ . '/../../php/footer.php'; ?>
+
+</body>
+
+</html>

@@ -20,7 +20,7 @@ $rootPath     = $rootPath     ?? '';
         <?php if (!empty($groupMembers)): ?>
           <em><?= implode(' &bull; ', array_map('htmlspecialchars', $groupMembers)) ?></em>
         <?php else: ?>
-          <em class="text-secondary">___________________________ &bull; ___________________________ &bull; ___________________________ &bull; ___________________________</em>
+          <em class="text-secondary">Oliver Gonzales &bull; Miguel Gomez &bull; Daniel Ubarte &bull; Gerardo Tejada</em>
         <?php endif; ?>
       </p>
     <?php else: ?>
