@@ -149,7 +149,8 @@ $errores = [];
     $datosCookie = [
         'nombre_estudiante'   => $estudiante['nombre'],
         'correo_estudiante'   => $estudiante['correo'],
-        'telefono_estudiante' => $estudiante['telefono']
+        'telefono_estudiante' => $estudiante['telefono'],
+        'curso_favorito'      => $inscripcion['curso'],
     ];
 
     $clavesCookies = array_keys($datosCookie);
@@ -157,7 +158,7 @@ $errores = [];
         $nombreCookie = $clavesCookies[$i];
         $valorCookie  = $datosCookie[$nombreCookie];
 
-        // Guarda dinámicamente solo las 3 cookies personales en el navegador por 1 hora
+        // Guarda cookies del estudiante en el navegador por 1 hora
         setcookie($nombreCookie, $valorCookie, time() + 3600, '/');
         // setcookie no actualiza $_COOKIE en la misma petición; reflejar para la vista
         $_COOKIE[$nombreCookie] = $valorCookie;

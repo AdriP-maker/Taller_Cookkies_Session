@@ -94,7 +94,7 @@
                     <p class="mb-2"><strong>4. Lectura de cookies del estudiante en $_COOKIE (ciclo + print_r):</strong></p>
                     <pre><?php
                     $cookiesEstudiante = [];
-                    $clavesP3 = ['nombre_estudiante', 'correo_estudiante', 'telefono_estudiante'];
+                    $clavesP3 = ['nombre_estudiante', 'correo_estudiante', 'telefono_estudiante', 'curso_favorito'];
                     foreach ($_COOKIE as $clave => $valor) {
                         if (in_array($clave, $clavesP3, true)) {
                             $cookiesEstudiante[$clave] = $valor;
