@@ -1,54 +1,64 @@
 <?php
-$pageTitle  = 'P2 — Pedido de Farmacia | Taller 5';
+session_start();
+$pageTitle = 'P2 — Pedido de Farmacia | Taller 5';
 $activePage = 'p2';
-$rootPath   = '';
+$rootPath = '';
 $footerType = 'programa';
+$groupMembers = ['José Ortega', 'Jesús Rodríguez', 'Jaseth Castillo', 'Eliam Fernández'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $pageTitle ?></title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="T5_P2/css/p2.css">
 </head>
+
 <body>
 
-<?php include 'php/nav.php'; ?>
+  <?php include 'php/nav.php'; ?>
 
-<div class="container py-4">
+  <div class="container py-4">
 
-  <!-- Breadcrumb -->
-  <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none"><i class="bi bi-house me-1"></i>Inicio</a></li>
-      <li class="breadcrumb-item active">Programa 2</li>
-    </ol>
-  </nav>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none"><i
+              class="bi bi-house me-1"></i>Inicio</a></li>
+        <li class="breadcrumb-item active">Programa 2</li>
+      </ol>
+    </nav>
 
-  <!-- Encabezado -->
-  <div class="d-flex align-items-center gap-3 mb-4">
-    <div class="prog-icon bg-success bg-opacity-10 text-success flex-shrink-0">💊</div>
-    <div>
-      <span class="badge bg-success-subtle text-success border border-success-subtle mb-1">Programa 02</span>
-      <h1 class="h3 fw-bold mb-0">Pedido de Farmacia</h1>
-      <p class="text-muted small mb-0">
-        Cookies y Sesiones &bull; Arrays asociativos &bull; POO &bull; Bootstrap 5.3.3
-      </p>
+    <!-- Encabezado -->
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <div class="prog-icon bg-success bg-opacity-10 text-success flex-shrink-0">💊</div>
+      <div>
+        <span class="badge bg-success-subtle text-success border border-success-subtle mb-1">Programa 02</span>
+        <h1 class="h3 fw-bold mb-0">Pedido de Farmacia</h1>
+        <p class="text-muted small mb-0">
+          Cookies y Sesiones &bull; Arrays asociativos &bull; POO &bull; Bootstrap 5.3.3
+        </p>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white border-bottom fw-semibold d-flex align-items-center gap-2">
+        <i class="bi bi-code-slash text-success"></i>Implementación
+      </div>
+      <div class="card-body">
+        <?php include 'T5_P2/php/programa.php'; ?>
+      </div>
     </div>
   </div>
 
-  <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white border-bottom fw-semibold d-flex align-items-center gap-2">
-      <i class="bi bi-code-slash text-success"></i>Implementación
-    </div>
-    <div class="card-body">
-      <?php include 'T5_P2/php/programa.php'; ?>
-    </div>
-  </div>
-</div>
-
-<?php include 'php/footer.php'; ?>
+  <?php include 'php/footer.php'; ?>
+  <script src="T5_P2/js/scripts.js"></script>
 </body>
+
 </html>
