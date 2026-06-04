@@ -1,1 +1,299 @@
-/* Estilos específicos de Programa 3 — Autenticación */
+/* ============================================================
+   p3.css — Programa 3 (Inscripción Instituto)
+   Estilos acotados a .p3-app para no pisar styles.css / Bootstrap
+   ============================================================ */
+
+.p3-app {
+    --p3-accent: #f59e0b;
+    --p3-accent-dark: #d97706;
+    --p3-accent-soft: #fffbeb;
+    --p3-border: #e5e7eb;
+    --p3-text: #1f2937;
+    --p3-muted: #6b7280;
+}
+
+.p3-app h2.p3-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--p3-text);
+}
+
+.p3-app h2.p3-title .sub {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--p3-muted);
+    margin-left: 0.35rem;
+}
+
+.p3-app .p3-card {
+    background: #fff;
+    border: 1px solid var(--p3-border);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.p3-app .p3-card h3 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--p3-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.p3-app .p3-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+}
+
+.p3-app .p3-row:last-child {
+    margin-bottom: 0;
+}
+
+.p3-app .field {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.p3-app .field label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0;
+}
+
+.p3-app input:not([type="radio"]),
+.p3-app select {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--p3-border);
+    border-radius: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--p3-text);
+    background: #fafafa;
+    width: 100%;
+}
+
+.p3-app input:not([type="radio"]):focus,
+.p3-app select:focus {
+    border-color: var(--p3-accent);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    outline: none;
+}
+
+.p3-app .radio-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.p3-app .radio-group input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.p3-app .radio-group label {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem;
+    border: 1px solid var(--p3-border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--p3-muted);
+    background: #fafafa;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.p3-app .radio-group input[type="radio"]:checked + label {
+    border-color: var(--p3-accent);
+    background: var(--p3-accent-soft);
+    color: var(--p3-accent-dark);
+    font-weight: 600;
+}
+
+.p3-app .p3-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+}
+
+.p3-app .p3-table th {
+    text-align: left;
+    padding: 0.45rem 0.65rem;
+    background: #f9fafb;
+    font-size: 0.72rem;
+    color: var(--p3-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.p3-app .p3-table td {
+    padding: 0.55rem 0.65rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.p3-app .p3-table tr:last-child td {
+    border-bottom: none;
+}
+
+.p3-app .p3-table td.precio {
+    font-weight: 600;
+    color: var(--p3-accent-dark);
+}
+
+.p3-app .note {
+    font-size: 0.78rem;
+    color: var(--p3-muted);
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+.p3-app .note strong {
+    color: var(--p3-accent-dark);
+}
+
+.p3-app .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.p3-app .p3-btn {
+    padding: 0.65rem 1.25rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: background 0.15s;
+}
+
+.p3-app .p3-btn-primary {
+    background: var(--p3-accent);
+    color: #fff;
+    flex: 1;
+}
+
+.p3-app .p3-btn-primary:hover {
+    background: var(--p3-accent-dark);
+    color: #fff;
+}
+
+.p3-app .p3-btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid var(--p3-border);
+}
+
+.p3-app .p3-btn-secondary:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.p3-app .p3-btn-danger {
+    background: #fff;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+}
+
+.p3-app .p3-btn-danger:hover {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.p3-app .factura-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.88rem;
+}
+
+.p3-app .factura-row:last-child {
+    border-bottom: none;
+}
+
+.p3-app .factura-total {
+    background: var(--p3-accent-soft);
+    border-radius: 0.5rem;
+    padding: 0.85rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    font-weight: 700;
+    color: var(--p3-text);
+}
+
+.p3-app .factura-total span:last-child {
+    font-size: 1.15rem;
+    color: var(--p3-accent-dark);
+}
+
+.p3-app .divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 0.75rem 0;
+}
+
+.p3-app pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.p3-app .alerta {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #dc2626;
+    color: #991b1b;
+    padding: 0.85rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.87rem;
+    margin-bottom: 1rem;
+}
+
+.p3-app .alerta-ok {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #16a34a;
+    color: #166534;
+}
+
+@media (max-width: 576px) {
+    .p3-app .p3-row {
+        flex-direction: column;
+    }
+
+    .p3-app .btn-row {
+        flex-direction: column;
+    }
+
+    .p3-app .p3-btn-primary {
+        flex: none;
+        width: 100%;
+    }
+}

@@ -83,7 +83,7 @@ $rootPath   = '';
       <div class="card h-100 shadow-sm border-0 card-prog-3">
         <div class="card-body d-flex flex-column p-4">
           <div class="d-flex justify-content-between align-items-start mb-3">
-            <div class="prog-icon bg-warning bg-opacity-10 text-warning">🎓</div>
+            <div class="prog-icon bg-warning bg-opacity-10 text-warning"><i class="bi bi-mortarboard"></i></div>
             <span class="badge bg-warning-subtle text-warning border border-warning-subtle">PHP</span>
           </div>
           <span class="badge bg-secondary-subtle text-secondary mb-2 align-self-start">Programa 03</span>
