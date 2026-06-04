@@ -37,6 +37,7 @@ $pageTitle = 'P2 — Sesión Destruida | Taller 5';
 $activePage = 'p2';
 $rootPath = '../../';
 $footerType = 'programa';
+$groupMembers = ['José Ortega', 'Jesús Rodríguez', 'Jaseth Castillo', 'Eliam Fernández'];
 
 // Determinar el retorno dinámico basado en el referer antes de destruir sesión por completo
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';

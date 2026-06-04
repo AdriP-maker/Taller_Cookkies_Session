@@ -44,6 +44,8 @@ if (empty($telefono)) {
     $errores[] = 'El teléfono es obligatorio.';
 } elseif (!preg_match('/^[0-9]+$/', $telefono)) {
     $errores[] = 'El teléfono solo debe contener números enteros (sin letras ni caracteres especiales).';
+} elseif (strlen($telefono) !== 8) {
+    $errores[] = 'el formato de numero debe tener 8 digitos';
 }
 
 $fecha_retiro = isset($_POST['fecha_retiro']) ? trim($_POST['fecha_retiro']) : '';
@@ -114,6 +116,7 @@ $pageTitle  = 'P2 — Confirmación de Pedido | Taller 5';
 $activePage = 'p2';
 $rootPath   = '../../';
 $footerType = 'programa';
+$groupMembers = ['José Ortega', 'Jesús Rodríguez', 'Jaseth Castillo', 'Eliam Fernández'];
 
 // Enlace de retorno dinámico (portal vs standalone)
 $p2_return_link = isset($_SESSION['p2_entry']) ? $_SESSION['p2_entry'] : '../../T5_P2.php';
