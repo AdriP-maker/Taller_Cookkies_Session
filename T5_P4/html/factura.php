@@ -15,14 +15,18 @@
                 <div class="fs-5 fw-semibold text-dark"><?= htmlspecialchars($factura['cliente']) ?></div>
             </div>
             <div class="col-6">
+                <div class="text-muted small text-uppercase fw-bold mb-1">Correo</div>
+                <div class="fs-5 text-dark text-break"><?= htmlspecialchars($factura['correo']) ?></div>
+            </div>
+            <div class="col-4">
                 <div class="text-muted small text-uppercase fw-bold mb-1">Edad</div>
                 <div class="fs-5 text-dark"><?= $factura['edad'] ?> años</div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <div class="text-muted small text-uppercase fw-bold mb-1">Plato</div>
                 <div class="fs-5 text-dark"><?= htmlspecialchars($factura['plato']) ?></div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <div class="text-muted small text-uppercase fw-bold mb-1">Tipo de Pago</div>
                 <div class="fs-5 text-dark"><?= htmlspecialchars($factura['tipo_pago']) ?></div>
             </div>

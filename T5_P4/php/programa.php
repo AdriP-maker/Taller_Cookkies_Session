@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrar'])) {
 
     // Se eliminan las cookies pasando una fecha en el pasado
     setcookie('cliente_nombre', '', time() - 3600, '/');
+    setcookie('cliente_correo', '', time() - 3600, '/');
     setcookie('cliente_plato',  '', time() - 3600, '/');
 
     // Redirige a la misma pagina para refrescar el estado
@@ -24,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
     try {
         // Recoger y sanitizar los datos del formulario
         $cliente     = trim($_POST['cliente']     ?? '');
+        $correo      = trim($_POST['correo']      ?? '');
         $edad        = isset($_POST['edad'])     ? (int)$_POST['edad']     : 0;
         $plato           = $_POST['plato']                   ?? '';
         $bebida          = $_POST['bebida']                  ?? '';
@@ -39,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
             throw new Exception("El nombre del cliente es obligatorio.");
         if (!preg_match('/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/', $cliente))
             throw new Exception("El nombre solo puede contener letras y espacios.");
+        if (empty($correo) || !filter_var($correo, FILTER_VALIDATE_EMAIL))
+            throw new Exception("Debe ingresar un correo electrónico válido.");
         if ($edad < 10 || $edad > 120)
             throw new Exception("La edad debe ser entre 10 y 120 años.");
         // Al menos uno de los tres debe estar seleccionado
@@ -50,15 +54,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
             throw new Exception("Debe seleccionar un tipo de pago.");
 
         // Crear el objeto Pedido y obtener el detalle calculado
-        $pedido  = new Pedido($cliente, $edad, $plato, $bebida, $postre, $cantidad, $cantidad_bebida, $cantidad_postre, $tipo_pago, $comentarios);
+        $pedido  = new Pedido($cliente, $correo, $edad, $plato, $bebida, $postre, $cantidad, $cantidad_bebida, $cantidad_postre, $tipo_pago, $comentarios);
         $detalle = $pedido->getDetalleFactura();
 
         // Guardar cookies con duracion de 1 hora (nombre del cliente y plato favorito)
         setcookie('cliente_nombre', $cliente, time() + 3600, '/');
+        setcookie('cliente_correo', $correo,  time() + 3600, '/');
         setcookie('cliente_plato',  $plato,   time() + 3600, '/');
 
         // Actualizar $_COOKIE para que la vista las lea en la misma peticion
         $_COOKIE['cliente_nombre'] = $cliente;
+        $_COOKIE['cliente_correo'] = $correo;
         $_COOKIE['cliente_plato']  = $plato;
 
         // Guardar el pedido, la factura y el total en sesion
@@ -123,9 +129,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
 
 <!-- Fila 3: Acordeones que muestran el contenido de $_SESSION y $_COOKIE (solo si hay un pedido) -->
 <?php if (isset($_SESSION['pedido'])): ?>
+<?php
+    $sort = $_GET['sort'] ?? '';
+    $displaySession = $_SESSION;
+    $displayCookie = $_COOKIE;
+    
+    if ($sort === 'asc') {
+        ksort($displaySession);
+        ksort($displayCookie);
+    } elseif ($sort === 'desc') {
+        krsort($displaySession);
+        krsort($displayCookie);
+    }
+?>
 <div class="row justify-content-center mb-5">
     <div class="col-lg-8 col-xl-7">
-        <h5 class="text-secondary fw-semibold mb-3"><i class="bi bi-code-slash me-2"></i>Datos Almacenados</h5>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="text-secondary fw-semibold mb-0"><i class="bi bi-code-slash me-2"></i>Datos Almacenados</h5>
+            <div class="btn-group btn-group-sm" role="group">
+                <a href="?sort=asc" class="btn btn-outline-secondary <?= $sort === 'asc' ? 'active' : '' ?>">Ascendente</a>
+                <a href="?sort=desc" class="btn btn-outline-secondary <?= $sort === 'desc' ? 'active' : '' ?>">Descendente</a>
+                <a href="?" class="btn btn-outline-secondary <?= $sort === '' ? 'active' : '' ?>">Normal</a>
+            </div>
+        </div>
 
         <div class="accordion accordion-flush shadow-sm rounded-3 overflow-hidden" id="acordeonDatos">
 
@@ -141,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
                 <div id="collapseSession" class="accordion-collapse collapse"
                      aria-labelledby="headingSession" data-bs-parent="#acordeonDatos">
                     <div class="accordion-body p-0">
-                        <pre class="m-0 p-3 bg-light small text-dark" style="overflow-x:auto;"><code><?= htmlspecialchars(print_r($_SESSION, true)) ?></code></pre>
+                        <pre class="m-0 p-3 bg-light small text-dark" style="overflow-x:auto;"><code><?= htmlspecialchars(print_r($displaySession, true)) ?></code></pre>
                     </div>
                 </div>
             </div>
@@ -158,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
                 <div id="collapseCookie" class="accordion-collapse collapse"
                      aria-labelledby="headingCookie" data-bs-parent="#acordeonDatos">
                     <div class="accordion-body p-0">
-                        <pre class="m-0 p-3 bg-light small text-dark" style="overflow-x:auto;"><code><?= htmlspecialchars(print_r($_COOKIE, true)) ?></code></pre>
+                        <pre class="m-0 p-3 bg-light small text-dark" style="overflow-x:auto;"><code><?= htmlspecialchars(print_r($displayCookie, true)) ?></code></pre>
                     </div>
                 </div>
             </div>

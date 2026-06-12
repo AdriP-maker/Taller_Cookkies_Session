@@ -30,6 +30,17 @@
             </div>
         </div>
 
+        <!-- Correo Electrónico -->
+        <div class="row mb-3 g-3">
+            <div class="col-md-12">
+                <label for="correo" class="form-label fw-semibold">Correo Electrónico</label>
+                <input type="email" class="form-control bg-light border-0" id="correo" name="correo"
+                       required
+                       placeholder="Ej. usuario@correo.com"
+                       value="<?= htmlspecialchars($_COOKIE['cliente_correo'] ?? '') ?>">
+            </div>
+        </div>
+
         <!-- Plato principal y cantidad -->
         <div class="row mb-3 g-3">
             <div class="col-md-8">
@@ -102,6 +113,22 @@
                 </div>
             </div>
         </div>
+
+        <!-- Alternativa: Tipo de pago mediante checkboxes (comentado)
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Tipo de Pago (Múltiple)</label>
+            <div class="d-flex gap-4 bg-light p-3 rounded-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="tipo_pago[]" id="pago_efectivo_chk" value="Efectivo">
+                    <label class="form-check-label fw-medium" for="pago_efectivo_chk"><i class="bi bi-cash me-1"></i>Efectivo</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="tipo_pago[]" id="pago_tarjeta_chk" value="Tarjeta">
+                    <label class="form-check-label fw-medium" for="pago_tarjeta_chk"><i class="bi bi-credit-card me-1"></i>Tarjeta</label>
+                </div>
+            </div>
+        </div>
+        -->
 
         <!-- Campo opcional para notas adicionales del cliente -->
         <div class="mb-4">

@@ -5,6 +5,7 @@ class Pedido {
 
     // Datos que llegan del formulario
     private $cliente;
+    private $correo;
     private $edad;
     private $plato;
     private $bebida;
@@ -29,8 +30,9 @@ class Pedido {
     private $edad_descuento       = 55;    // Edad minima para el descuento
 
     // Constructor: recibe todos los datos del pedido y los guarda en la clase
-    public function __construct($cliente, $edad, $plato, $bebida, $postre, $cantidad, $cantidad_bebida, $cantidad_postre, $tipo_pago, $comentarios) {
+    public function __construct($cliente, $correo, $edad, $plato, $bebida, $postre, $cantidad, $cantidad_bebida, $cantidad_postre, $tipo_pago, $comentarios) {
         $this->cliente         = $cliente;
+        $this->correo          = $correo;
         $this->edad            = $edad;
         $this->plato           = $plato;
         $this->bebida          = $bebida;
@@ -77,6 +79,7 @@ class Pedido {
     public function getDetalleFactura() {
         return [
             'cliente'      => $this->cliente,
+            'correo'       => $this->correo,
             'edad'         => $this->edad,
             'plato'        => $this->plato,
             'bebida'       => $this->bebida,
