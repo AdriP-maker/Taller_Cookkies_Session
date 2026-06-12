@@ -32,22 +32,22 @@
         <div class="p-3 bg-light rounded-3 mb-4 border border-light-subtle">
             <?php
             // Se definen los precios de bebida y postre para el desglose
-            $precioBebida = ($factura['bebida'] !== 'Ninguno') ? 2 : 0;
-            $precioPostre = ($factura['postre'] !== 'Ninguno') ? 3 : 0;
+            $precioBebida = (!empty($factura['bebida']) && $factura['bebida'] !== 'Ninguno') ? 2 : 0;
+            $precioPostre = (!empty($factura['postre']) && $factura['postre'] !== 'Ninguno') ? 3 : 0;
 
             // Array asociativo donde la clave es el concepto y el valor es el monto
             $desglose = [
                 "{$factura['plato']} ({$factura['cantidad']} x $" . number_format($factura['precio_plato'], 2) . ")"
                     => $factura['precio_plato'] * $factura['cantidad'],
-                "Bebida — {$factura['bebida']}"
-                    => $precioBebida,
-                "Postre — {$factura['postre']}"
-                    => $precioPostre,
+                "Bebida — {$factura['bebida']} ({$factura['cantidad_bebida']} x $" . number_format($precioBebida, 2) . ")"
+                    => $precioBebida * $factura['cantidad_bebida'],
+                "Postre — {$factura['postre']} ({$factura['cantidad_postre']} x $" . number_format($precioPostre, 2) . ")"
+                    => $precioPostre * $factura['cantidad_postre'],
             ];
 
             // Recorre el desglose y omite los items que el cliente no pidio
             foreach ($desglose as $concepto => $monto):
-                if ($monto == 0 && str_contains($concepto, 'Ninguno')) continue;
+                if ($monto == 0) continue;
             ?>
             <div class="d-flex justify-content-between mb-2">
                 <span class="text-secondary fw-medium"><?= htmlspecialchars($concepto) ?></span>

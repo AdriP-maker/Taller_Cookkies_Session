@@ -10,6 +10,8 @@ class Pedido {
     private $bebida;
     private $postre;
     private $cantidad;
+    private $cantidad_bebida;
+    private $cantidad_postre;
     private $tipo_pago;
     private $comentarios;
 
@@ -27,15 +29,17 @@ class Pedido {
     private $edad_descuento       = 55;    // Edad minima para el descuento
 
     // Constructor: recibe todos los datos del pedido y los guarda en la clase
-    public function __construct($cliente, $edad, $plato, $bebida, $postre, $cantidad, $tipo_pago, $comentarios) {
-        $this->cliente     = $cliente;
-        $this->edad        = $edad;
-        $this->plato       = $plato;
-        $this->bebida      = $bebida;
-        $this->postre      = $postre;
-        $this->cantidad    = $cantidad;
-        $this->tipo_pago   = $tipo_pago;
-        $this->comentarios = $comentarios;
+    public function __construct($cliente, $edad, $plato, $bebida, $postre, $cantidad, $cantidad_bebida, $cantidad_postre, $tipo_pago, $comentarios) {
+        $this->cliente         = $cliente;
+        $this->edad            = $edad;
+        $this->plato           = $plato;
+        $this->bebida          = $bebida;
+        $this->postre          = $postre;
+        $this->cantidad        = $cantidad;
+        $this->cantidad_bebida = $cantidad_bebida;
+        $this->cantidad_postre = $cantidad_postre;
+        $this->tipo_pago       = $tipo_pago;
+        $this->comentarios     = $comentarios;
     }
 
     // Retorna el precio unitario del plato seleccionado
@@ -43,11 +47,11 @@ class Pedido {
         return $this->precios[$this->plato] ?? 0;
     }
 
-    // Suma plato x cantidad + bebida + postre (si aplica)
+    // Suma plato x cantidad + bebida x cantidad + postre x cantidad (si aplica)
     public function calcularSubtotal() {
         $precioPlato  = $this->getPrecioPlato() * $this->cantidad;
-        $precioBebida = $this->precios[$this->bebida] ?? 0;
-        $precioPostre = ($this->postre !== 'Ninguno') ? ($this->precios['Postre'] ?? 0) : 0;
+        $precioBebida = ($this->precios[$this->bebida] ?? 0) * $this->cantidad_bebida;
+        $precioPostre = (($this->postre !== 'Ninguno') ? ($this->precios['Postre'] ?? 0) : 0) * $this->cantidad_postre;
         return $precioPlato + $precioBebida + $precioPostre;
     }
 
@@ -77,8 +81,10 @@ class Pedido {
             'plato'        => $this->plato,
             'bebida'       => $this->bebida,
             'postre'       => $this->postre,
-            'cantidad'     => $this->cantidad,
-            'tipo_pago'    => $this->tipo_pago,
+            'cantidad'         => $this->cantidad,
+            'cantidad_bebida'  => $this->cantidad_bebida,
+            'cantidad_postre'  => $this->cantidad_postre,
+            'tipo_pago'        => $this->tipo_pago,
             'comentarios'  => $this->comentarios,
             'precio_plato' => $this->getPrecioPlato(),
             'subtotal'     => $this->calcularSubtotal(),

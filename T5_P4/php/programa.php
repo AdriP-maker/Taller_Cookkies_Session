@@ -25,10 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
         // Recoger y sanitizar los datos del formulario
         $cliente     = trim($_POST['cliente']     ?? '');
         $edad        = isset($_POST['edad'])     ? (int)$_POST['edad']     : 0;
-        $plato       = $_POST['plato']           ?? '';
-        $bebida      = $_POST['bebida']          ?? '';
-        $postre      = $_POST['postre']          ?? 'Ninguno';
-        $cantidad    = isset($_POST['cantidad']) ? (int)$_POST['cantidad'] : 1;
+        $plato           = $_POST['plato']                   ?? '';
+        $bebida          = $_POST['bebida']                  ?? '';
+        $postre          = $_POST['postre']                  ?? 'Ninguno';
+        $cantidad        = isset($_POST['cantidad'])         ? (int)$_POST['cantidad'] : 1;
+        $cantidad_bebida = isset($_POST['cantidad_bebida'])  ? (int)$_POST['cantidad_bebida'] : 1;
+        $cantidad_postre = isset($_POST['cantidad_postre'])  ? (int)$_POST['cantidad_postre'] : 1;
         $tipo_pago   = $_POST['tipo_pago']       ?? '';
         $comentarios = trim($_POST['comentarios'] ?? '');
 
@@ -42,13 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedir'])) {
         // Al menos uno de los tres debe estar seleccionado
         if (empty($plato) && empty($bebida) && $postre === 'Ninguno')
             throw new Exception("Debe seleccionar al menos un plato, bebida o postre.");
-        if ($cantidad < 1 || $cantidad > 10)
-            throw new Exception("La cantidad debe ser entre 1 y 10.");
+        if ($cantidad < 1 || $cantidad > 10 || $cantidad_bebida < 1 || $cantidad_bebida > 10 || $cantidad_postre < 1 || $cantidad_postre > 10)
+            throw new Exception("Las cantidades deben ser entre 1 y 10.");
         if (empty($tipo_pago))
             throw new Exception("Debe seleccionar un tipo de pago.");
 
         // Crear el objeto Pedido y obtener el detalle calculado
-        $pedido  = new Pedido($cliente, $edad, $plato, $bebida, $postre, $cantidad, $tipo_pago, $comentarios);
+        $pedido  = new Pedido($cliente, $edad, $plato, $bebida, $postre, $cantidad, $cantidad_bebida, $cantidad_postre, $tipo_pago, $comentarios);
         $detalle = $pedido->getDetalleFactura();
 
         // Guardar cookies con duracion de 1 hora (nombre del cliente y plato favorito)

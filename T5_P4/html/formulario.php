@@ -51,22 +51,40 @@
             </div>
         </div>
 
-        <!-- Bebida y postre -->
+        <!-- Bebida y cantidad -->
         <div class="row mb-3 g-3">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <label for="bebida" class="form-label fw-semibold">Bebida</label>
                 <select class="form-select bg-light border-0" id="bebida" name="bebida">
                     <option value="">Seleccione...</option>
                     <option value="Soda">🥤 Soda — $2.00</option>
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <label for="cantidad_bebida" class="form-label fw-semibold">Cantidad</label>
+                <input type="number" class="form-control bg-light border-0" id="cantidad_bebida" name="cantidad_bebida"
+                       min="1" max="10" value="1"
+                       onkeydown="return !['e','E','+','-','.'].includes(event.key);"
+                       oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);">
+            </div>
+        </div>
+
+        <!-- Postre y cantidad -->
+        <div class="row mb-3 g-3">
+            <div class="col-md-8">
                 <label for="postre" class="form-label fw-semibold">Postre</label>
                 <!-- El postre es opcional, por defecto queda en Ninguno -->
                 <select class="form-select bg-light border-0" id="postre" name="postre">
                     <option value="Ninguno">Sin postre</option>
                     <option value="Postre">🍮 Postre — $3.00</option>
                 </select>
+            </div>
+            <div class="col-md-4">
+                <label for="cantidad_postre" class="form-label fw-semibold">Cantidad</label>
+                <input type="number" class="form-control bg-light border-0" id="cantidad_postre" name="cantidad_postre"
+                       min="1" max="10" value="1"
+                       onkeydown="return !['e','E','+','-','.'].includes(event.key);"
+                       oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);">
             </div>
         </div>
 
